@@ -1,25 +1,59 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import './App.css';
+import NavBar from './NavBar';
+import dataSource from './dataSource';
+import ProductCard from './ProductCard';
+import ProductList from './ProductList';
+import CreateProduct from './CreateProduct';
+import DeleteProduct from './DeleteProduct'
 
-function App() {
+const App = () => {
+
+  const [productList, setProductList] = useState([]);
+  const [currentlySelectedProductId, setCurrentlySelectedProductId] = useState(0);
+  let refresh = false;
+
+  useEffect(() => {
+    loadProducts();
+  }, [refresh]);
+
+  const loadProducts = async () => {
+    const response = await dataSource.get('/products');
+
+    setProductList(response.data);
+  };
+
+  console.log('productList', productList);
+
+  const renderedList = () => {
+    return productList.map((product) => {
+      return (
+        <ProductCard
+          key={product.productId}
+          productId={product.productId}
+          name={product.name}
+          description={product.description}
+          brand={product.brand}
+          price={product.price}
+        />
+      );
+    });
+  };
+  console.log('renderedList', renderedList);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <NavBar />
+      <Routes>
+        <Route exact path='/' element={<div className='container'>{renderedList()}</div>} />
+        <Route exact path='/create' element={<CreateProduct />}/>
+        <Route exact path='/delete/:productId' element={<DeleteProduct />} />
+      </Routes>
+      
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
