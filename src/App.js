@@ -4,14 +4,15 @@ import './App.css';
 import NavBar from './NavBar';
 import dataSource from './dataSource';
 import ProductCard from './ProductCard';
-import ProductList from './ProductList';
+// import ProductList from './ProductList';
 import CreateProduct from './CreateProduct';
 import DeleteProduct from './DeleteProduct'
+import EditProduct from './EditProduct';
 
 const App = () => {
 
   const [productList, setProductList] = useState([]);
-  const [currentlySelectedProductId, setCurrentlySelectedProductId] = useState(0);
+  // const [currentlySelectedProductId, setCurrentlySelectedProductId] = useState(0);
   let refresh = false;
 
   useEffect(() => {
@@ -50,6 +51,7 @@ const App = () => {
         <Route exact path='/' element={<div className='container'>{renderedList()}</div>} />
         <Route exact path='/create' element={<CreateProduct />}/>
         <Route exact path='/delete/:productId' element={<DeleteProduct />} />
+        <Route exact path='/edit/:productId' element={<EditProduct />} />
       </Routes>
       
     </BrowserRouter>

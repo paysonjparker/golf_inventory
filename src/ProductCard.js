@@ -16,6 +16,7 @@ const Card = (props) => {
                             <p className="card-text">{props.description}</p>
                             <h5 className="card-title">${props.price}</h5>
                             <a href={`delete/${props.productId}`} className="card-link">Delete</a>
+                            <a href={`edit/${props.productId}`} className="card-link">Edit</a>
                         </div>
                     </div>
                 </div>
